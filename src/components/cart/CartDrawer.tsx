@@ -115,8 +115,9 @@ export function CartDrawer() {
             ) : (
               items.map((item, idx) => {
                 const activePrice = item.product.salePrice ?? item.product.price;
+                const itemKey = item.id || `${item.product.id}-${idx}`;
                 return (
-                  <div key={`${item.product.id}-${idx}`} className="pt-4 first:pt-0 flex gap-3.5">
+                  <div key={itemKey} className="pt-4 first:pt-0 flex gap-3.5">
                     <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-neutral-50 border border-neutral-200 shrink-0">
                       <Image
                         src={item.product.images[0]}
@@ -137,7 +138,7 @@ export function CartDrawer() {
                             {item.product.title}
                           </Link>
                           <button
-                            onClick={() => removeFromCart(item.product.id)}
+                            onClick={() => removeFromCart(item.id || item.product.id)}
                             className="text-neutral-400 hover:text-rose-600 transition p-1"
                             title="Kaldır"
                           >
@@ -171,7 +172,7 @@ export function CartDrawer() {
                         {/* Miktar */}
                         <div className="flex items-center border border-neutral-200 rounded-xl bg-neutral-50">
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.id || item.product.id, item.quantity - 1)}
                             className="p-1 hover:bg-neutral-200 text-neutral-600 transition rounded-l-xl"
                           >
                             <Minus className="w-3 h-3" />
@@ -180,7 +181,7 @@ export function CartDrawer() {
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id || item.product.id, item.quantity + 1)}
                             className="p-1 hover:bg-neutral-200 text-neutral-600 transition rounded-r-xl"
                           >
                             <Plus className="w-3 h-3" />

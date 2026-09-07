@@ -3,11 +3,12 @@ import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { LiveSupportProvider } from "@/context/LiveSupportContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { FloatingWhatsApp } from "@/components/common/FloatingWhatsApp";
+import { LiveSupportDrawer } from "@/components/support/LiveSupportDrawer";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -33,14 +34,16 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col selection:bg-gold-500 selection:text-white bg-[#FCFBF9] text-neutral-900">
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <CartDrawer />
-            <main className="flex-1 pb-16 lg:pb-0">
-              {children}
-            </main>
-            <Footer />
-            <MobileBottomNav />
-            <FloatingWhatsApp />
+            <LiveSupportProvider>
+              <Navbar />
+              <CartDrawer />
+              <main className="flex-1 pb-16 lg:pb-0">
+                {children}
+              </main>
+              <Footer />
+              <MobileBottomNav />
+              <LiveSupportDrawer />
+            </LiveSupportProvider>
           </CartProvider>
         </AuthProvider>
       </body>

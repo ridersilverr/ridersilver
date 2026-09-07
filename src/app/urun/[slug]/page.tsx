@@ -9,6 +9,7 @@ import { getProductBySlug, addProductReview, getAllProducts } from "@/lib/store"
 import { Product } from "@/types";
 import { useCart } from "@/context/CartContext";
 import { siteConfig, getWhatsAppUrl } from "@/config/site";
+import { useLiveSupport } from "@/context/LiveSupportContext";
 import { ProductCard } from "@/components/product/ProductCard";
 import { 
   Star, 
@@ -22,10 +23,12 @@ import {
   MessageSquarePlus,
   ChevronLeft,
   ChevronRight,
-  MessageCircle
+  MessageCircle,
+  Headphones
 } from "lucide-react";
 
 export default function ProductDetailPage() {
+  const { openSupport } = useLiveSupport();
   const params = useParams();
   const slug = params?.slug as string;
 
@@ -353,16 +356,27 @@ export default function ProductDetailPage() {
                 </button>
               </div>
 
-              {/* WhatsApp Stil Danışmanı Direkt Soru */}
-              <a
-                href={getWhatsAppUrl(`Merhaba Rider Silver, "${product.title}" (${product.price} TL) hakkında özel ölçü veya detaylı bilgi almak istiyorum.`)}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 text-emerald-900 text-xs font-mono font-bold uppercase tracking-wider transition shadow-2xs group"
-              >
-                <MessageCircle className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
-                <span>WhatsApp Stil Danışmanına Sor</span>
-              </a>
+              {/* Danışman Butonları: Canlı Destek & WhatsApp */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => openSupport(`Merhaba, "${product.title}" (${product.price} TL) hakkında bilgi ve özel ölçü danışmanlığı almak istiyorum.`)}
+                  className="w-full flex items-center justify-center gap-2 py-3 px-3 rounded-xl border border-gold-300 bg-amber-50/80 hover:bg-gold-100 text-neutral-900 text-xs font-mono font-bold uppercase tracking-wider transition shadow-2xs group cursor-pointer"
+                >
+                  <Headphones className="w-4 h-4 text-gold-700 group-hover:scale-110 transition-transform" />
+                  <span>Canlı Destek ile Sor</span>
+                </button>
+
+                <a
+                  href={getWhatsAppUrl(`Merhaba Rider Silver, "${product.title}" (${product.price} TL) hakkında özel ölçü veya detaylı bilgi almak istiyorum.`)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-3 rounded-xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 text-emerald-900 text-xs font-mono font-bold uppercase tracking-wider transition shadow-2xs group"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
+                  <span>WhatsApp ile Sor</span>
+                </a>
+              </div>
 
               {/* Güvenceler */}
               <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-3 text-[11px] text-neutral-600">

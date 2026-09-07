@@ -46,7 +46,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const savedCart = localStorage.getItem(CART_STORAGE_KEY);
       if (savedCart) {
-        setItems(JSON.parse(savedCart));
+        const parsed: CartItem[] = JSON.parse(savedCart);
+        const normalized = parsed.map((item, idx) => ({
+          ...item,
+          id: item.id || `${item.product.id}-${Date.now()}-${idx}`,
+        }));
+        setItems(normalized);
       }
     } catch (e) {
       console.error("Sepet okunamadı:", e);
@@ -70,44 +75,59 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     selectedMaterial?: string,
     customDesign?: CustomDesignConfig
   ) => {
+    const finalMaterial = (selectedMaterial || product.material || "").trim();
+    const finalSize = (selectedSize || "").trim();
+
     setItems((prevItems) => {
-      // Eğer kişiye özel tasarım ise her seferinde yeni kalem ekle (çünkü plaka veya yazı farklı olabilir)
-      if (customDesign) {
-        return [
-          ...prevItems,
-          {
-            product,
-            quantity,
-            selectedSize,
-            selectedMaterial: selectedMaterial || product.material,
-            customDesign,
-          },
-        ];
-      }
+      // Tüm özellikleri kontrol et: Ürün ID, Beden/Ölçü, Maden ve Özel Tasarım detayları
+      const existingIndex = prevItems.findIndex((item) => {
+        if (item.product.id !== product.id) return false;
 
-      const existingIndex = prevItems.findIndex(
-        (item) =>
-          item.product.id === product.id &&
-          item.selectedSize === selectedSize &&
-          item.selectedMaterial === selectedMaterial &&
-          !item.customDesign
-      );
+        const itemSize = (item.selectedSize || "").trim();
+        if (itemSize !== finalSize) return false;
 
+        const itemMaterial = (item.selectedMaterial || item.product.material || "").trim();
+        if (itemMaterial !== finalMaterial) return false;
+
+        // Özel tasarım kontrolü
+        if (customDesign || item.customDesign) {
+          if (!customDesign || !item.customDesign) return false;
+          return (
+            customDesign.template === item.customDesign.template &&
+            (customDesign.plateText || "") === (item.customDesign.plateText || "") &&
+            (customDesign.mainText || "") === (item.customDesign.mainText || "") &&
+            (customDesign.numberPlate || "") === (item.customDesign.numberPlate || "") &&
+            (customDesign.bodyColor || "") === (item.customDesign.bodyColor || "") &&
+            (customDesign.chainType || "") === (item.customDesign.chainType || "") &&
+            (customDesign.brand || "") === (item.customDesign.brand || "") &&
+            (customDesign.backText || "") === (item.customDesign.backText || "")
+          );
+        }
+
+        return true;
+      });
+
+      // Seçili tüm özellikler birebir aynı ise: mevcuda +1 ekle!
       if (existingIndex > -1) {
         const updated = [...prevItems];
-        updated[existingIndex].quantity += quantity;
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          quantity: updated[existingIndex].quantity + quantity,
+        };
         return updated;
       }
 
-      return [
-        ...prevItems,
-        {
-          product,
-          quantity,
-          selectedSize,
-          selectedMaterial: selectedMaterial || product.material,
-        },
-      ];
+      // Özellikler farklı ise: yeni satır olarak ekle (kendi benzersiz ID'si ile)
+      const newItem: CartItem = {
+        id: `${product.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        product,
+        quantity,
+        selectedSize: finalSize || undefined,
+        selectedMaterial: finalMaterial || undefined,
+        customDesign,
+      };
+
+      return [...prevItems, newItem];
     });
 
     // KULLANICI İSTEĞİ: Sepet çekmecesi otomatik AÇILMASIN, alışveriş kesintisiz devam etsin.
@@ -125,19 +145,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, 4000);
   };
 
-  const removeFromCart = (productId: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.product.id !== productId));
+  const removeFromCart = (cartItemId: string) => {
+    setItems((prevItems) =>
+      prevItems.filter((item) => (item.id ? item.id !== cartItemId : item.product.id !== cartItemId))
+    );
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (cartItemId: string, quantity: number) => {
     if (quantity <= 0) {
-      removeFromCart(productId);
+      removeFromCart(cartItemId);
       return;
     }
     setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
-      )
+      prevItems.map((item) => {
+        const matches = item.id ? item.id === cartItemId : item.product.id === cartItemId;
+        return matches ? { ...item, quantity } : item;
+      })
     );
   };
 

@@ -61,6 +61,7 @@ export interface CustomDesignConfig {
 }
 
 export interface CartItem {
+  id?: string;
   product: Product;
   quantity: number;
   selectedSize?: string;

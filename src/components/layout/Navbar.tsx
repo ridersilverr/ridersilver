@@ -6,6 +6,7 @@ import Image from "next/image";
 import { siteConfig, getWhatsAppUrl } from "@/config/site";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useLiveSupport } from "@/context/LiveSupportContext";
 import { 
   ShoppingBag, 
   User, 
@@ -15,7 +16,8 @@ import {
   Sparkles, 
   LogOut, 
   LayoutDashboard,
-  MessageCircle
+  MessageCircle,
+  Headphones
 } from "lucide-react";
 
 export function Navbar() {
@@ -28,6 +30,7 @@ export function Navbar() {
     setToastVisible 
   } = useCart();
 
+  const { openSupport } = useLiveSupport();
   const { user, isAdmin, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -109,8 +112,19 @@ export function Navbar() {
           </nav>
 
           {/* Sağ Aksiyonlar */}
-          <div className="flex items-center space-x-2 sm:space-x-3.5">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             
+            {/* Canlı Destek Butonu (Masaüstü) */}
+            <button
+              onClick={() => openSupport()}
+              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full border border-emerald-300/80 bg-emerald-50/80 hover:bg-emerald-100 text-emerald-900 text-[11px] font-mono font-bold transition shadow-2xs group"
+              title="Canlı Destek Başlat"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <Headphones className="w-3.5 h-3.5 text-emerald-700 group-hover:scale-110 transition-transform" />
+              <span>Canlı Destek</span>
+            </button>
+
             {/* Arama Butonu */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
@@ -294,6 +308,18 @@ export function Navbar() {
             </div>
 
             <div className="pt-2 border-t border-neutral-100 flex flex-col gap-2 font-mono">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openSupport();
+                }}
+                className="text-xs uppercase tracking-wider font-bold text-neutral-900 bg-amber-50/90 hover:bg-gold-100 border border-gold-300 py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-2 transition"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <Headphones className="w-4 h-4 text-gold-700" />
+                <span>Canlı Destek (Çevrimiçi)</span>
+              </button>
+
               <a
                 href={getWhatsAppUrl("Merhaba Rider Silver, stil danışmanınızla görüşmek, koleksiyon ve özel sipariş süreçleri hakkında bilgi almak istiyorum.")}
                 target="_blank"
@@ -301,7 +327,7 @@ export function Navbar() {
                 className="text-xs uppercase tracking-wider font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-2 transition"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-600" />
-                <span>WhatsApp VIP Stil Danışmanı</span>
+                <span>WhatsApp Danışmanı</span>
               </a>
 
               <Link

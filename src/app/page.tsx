@@ -12,10 +12,12 @@ import { ReviewsTicker } from "@/components/home/ReviewsTicker";
 import { ProductCard } from "@/components/product/ProductCard";
 import { getAllProducts } from "@/lib/store";
 import { Product } from "@/types";
-import { Sparkles, ArrowRight, MessageCircle } from "lucide-react";
+import { Sparkles, ArrowRight, MessageCircle, Headphones } from "lucide-react";
 import { getWhatsAppUrl } from "@/config/site";
+import { useLiveSupport } from "@/context/LiveSupportContext";
 
 export default function Home() {
+  const { openSupport } = useLiveSupport();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -135,15 +137,25 @@ export default function Home() {
             Kendinize veya sevdiklerinize özel bir parça seçerken ya da havale ödeme adımlarında anlık bilgi almak için WhatsApp stil danışmanımıza tek tıkla bağlanabilirsiniz.
           </p>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => openSupport()}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-neutral-950 hover:bg-gold-600 text-white text-xs sm:text-sm font-bold tracking-widest uppercase rounded-full shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 border border-gold-400/40 cursor-pointer"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <Headphones className="w-4 h-4 text-gold-400" />
+              <span>Sitede Canlı Desteğe Bağlan</span>
+            </button>
+
             <a
               href={getWhatsAppUrl("Merhaba Rider Silver, özel tasarım ve koleksiyonlarınız hakkında stil danışmanından bilgi almak istiyorum.")}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold tracking-widest uppercase rounded-full shadow-lg shadow-emerald-700/20 transition-all duration-300 transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs sm:text-sm font-semibold tracking-wider uppercase rounded-full transition-all duration-300"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp Stil Danışmanına Bağlan</span>
+              <MessageCircle className="w-4 h-4 text-emerald-600" />
+              <span>WhatsApp ile Yazın</span>
             </a>
           </div>
         </div>

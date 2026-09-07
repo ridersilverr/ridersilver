@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig, getWhatsAppUrl } from "@/config/site";
+import { useLiveSupport } from "@/context/LiveSupportContext";
 import { 
   ShieldCheck, 
   Truck, 
@@ -13,10 +16,12 @@ import {
   MapPin, 
   Sparkles,
   Instagram,
-  MessageCircle
+  MessageCircle,
+  Headphones
 } from "lucide-react";
 
 export function Footer() {
+  const { openSupport } = useLiveSupport();
   return (
     <footer className="bg-obsidian-deep text-neutral-400 pt-16 pb-12 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -131,6 +136,17 @@ export function Footer() {
                 <Phone className="w-4 h-4 text-gold-400 shrink-0" />
                 <span>{siteConfig.contact.phone}</span>
               </div>
+              <button
+                type="button"
+                onClick={() => openSupport()}
+                className="flex items-center gap-2.5 font-mono text-gold-400 hover:text-gold-300 transition group text-left"
+              >
+                <Headphones className="w-4 h-4 text-gold-400 shrink-0 group-hover:scale-110 transition-transform" />
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Canlı Destek Başlat (Çevrimiçi)
+                </span>
+              </button>
               <a
                 href={getWhatsAppUrl("Merhaba Rider Silver, web siteniz üzerinden stil danışmanınızla iletişime geçmek istiyorum.")}
                 target="_blank"
@@ -138,7 +154,7 @@ export function Footer() {
                 className="flex items-center gap-2.5 font-mono text-emerald-400 hover:text-emerald-300 transition group"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform" />
-                <span>Stil Danışmanı: {siteConfig.contact.whatsapp}</span>
+                <span>WhatsApp Danışmanı: {siteConfig.contact.whatsapp}</span>
               </a>
               <div className="flex items-center gap-2.5 font-mono">
                 <Mail className="w-4 h-4 text-gold-400 shrink-0" />

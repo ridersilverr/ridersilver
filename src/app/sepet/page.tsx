@@ -109,8 +109,9 @@ export default function CartPage() {
             <div className="rounded-3xl bg-white border border-neutral-200 divide-y divide-neutral-100 overflow-hidden shadow-xs">
               {items.map((item, idx) => {
                 const activePrice = item.product.salePrice ?? item.product.price;
+                const itemKey = item.id || `${item.product.id}-${idx}`;
                 return (
-                  <div key={`${item.product.id}-${idx}`} className="p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-5">
+                  <div key={itemKey} className="p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-5">
                     <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-neutral-50 border border-neutral-200 shrink-0">
                       <Image
                         src={item.product.images[0]}
@@ -154,14 +155,14 @@ export default function CartPage() {
                     {/* Miktar */}
                     <div className="flex items-center border border-neutral-300 rounded-xl bg-neutral-50">
                       <button
-                        onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                        onClick={() => updateQuantity(item.id || item.product.id, item.quantity - 1)}
                         className="p-2 text-neutral-600 hover:bg-white transition rounded-l-xl"
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
                       <span className="px-3 text-xs font-mono font-bold text-neutral-900">{item.quantity}</span>
                       <button
-                        onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                        onClick={() => updateQuantity(item.id || item.product.id, item.quantity + 1)}
                         className="p-2 text-neutral-600 hover:bg-white transition rounded-r-xl"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -179,7 +180,7 @@ export default function CartPage() {
                     </div>
 
                     <button
-                      onClick={() => removeFromCart(item.product.id)}
+                      onClick={() => removeFromCart(item.id || item.product.id)}
                       className="p-2 text-neutral-400 hover:text-rose-600 transition"
                       title="Kaldır"
                     >
