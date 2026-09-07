@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ArrowRight, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
 
 const featuredItems = [
@@ -55,6 +56,7 @@ const featuredItems = [
 export function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
   const handleNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % featuredItems.length);
@@ -63,6 +65,23 @@ export function HeroSection() {
   const handlePrev = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + featuredItems.length) % featuredItems.length);
   }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    setIsPaused(true);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (diff > 35) {
+      handleNext();
+    } else if (diff < -35) {
+      handlePrev();
+    }
+    touchStartX.current = null;
+    setIsPaused(false);
+  };
 
   // Otomatik Ürün Geçiş Zamanlayıcısı (4.5 saniyede bir, üzerine gelince duraklar)
   useEffect(() => {
@@ -170,19 +189,36 @@ export function HeroSection() {
               {/* Parlayan Altın Aura Efekti */}
               <div className="absolute -inset-2 rounded-[2.5rem] bg-gradient-to-r from-gold-300/50 via-amber-200/40 to-gold-400/50 blur-xl opacity-70" />
 
-              {/* Ana Görsel Kartı */}
-              <div className="relative rounded-[2rem] overflow-hidden border-2 border-white bg-white shadow-2xl group">
+              {/* Ana Görsel Kartı (Kayarlı Slider) */}
+              <div 
+                className="relative rounded-[2rem] overflow-hidden border-2 border-white bg-white shadow-2xl group"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
                 
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
-                  <Image
-                    key={currentProduct.id}
-                    src={currentProduct.image}
-                    alt={currentProduct.title}
-                    fill
-                    priority
-                    className="object-cover object-center group-hover:scale-108 transition-all duration-700 ease-out animate-in fade-in zoom-in-95 duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/10" />
+                {/* Sağa-Sola Kayarlı Görsel Rayı */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100 cursor-grab active:cursor-grabbing">
+                  <motion.div
+                    className="flex w-full h-full"
+                    animate={{ x: `-${currentIndex * 100}%` }}
+                    transition={{ type: "spring", stiffness: 220, damping: 26 }}
+                  >
+                    {featuredItems.map((item, idx) => (
+                      <div 
+                        key={item.id} 
+                        className="relative aspect-[4/5] w-full h-full shrink-0 flex-none overflow-hidden"
+                      >
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          priority={idx === 0}
+                          className="object-cover object-center group-hover:scale-105 transition-all duration-700 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/10" />
+                      </div>
+                    ))}
+                  </motion.div>
                 </div>
 
                 {/* Üst Sol: Sayaç ve Rozet */}
@@ -194,15 +230,24 @@ export function HeroSection() {
                 </div>
 
                 {/* Üst Sağ: Garanti Rozeti */}
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 flex items-center gap-1.5 text-[10px] font-semibold text-neutral-800 shadow-sm z-10">
-                  <ShieldCheck className="w-3.5 h-3.5 text-gold-600" />
-                  <span>{currentProduct.guarantee}</span>
-                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentProduct.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 flex items-center gap-1.5 text-[10px] font-semibold text-neutral-800 shadow-sm z-10"
+                  >
+                    <ShieldCheck className="w-3.5 h-3.5 text-gold-600" />
+                    <span>{currentProduct.guarantee}</span>
+                  </motion.div>
+                </AnimatePresence>
 
                 {/* Ok Butonları (Önceki / Sonraki) */}
                 <button
                   onClick={handlePrev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/85 hover:bg-white text-neutral-800 hover:text-gold-700 shadow-lg border border-neutral-200/80 flex items-center justify-center transition-all duration-200 z-20 hover:scale-110"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/85 hover:bg-white text-neutral-800 hover:text-gold-700 shadow-lg border border-neutral-200/80 flex items-center justify-center transition-all duration-200 z-20 hover:scale-110 active:scale-95"
                   aria-label="Önceki Ürün"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -210,7 +255,7 @@ export function HeroSection() {
 
                 <button
                   onClick={handleNext}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/85 hover:bg-white text-neutral-800 hover:text-gold-700 shadow-lg border border-neutral-200/80 flex items-center justify-center transition-all duration-200 z-20 hover:scale-110"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/85 hover:bg-white text-neutral-800 hover:text-gold-700 shadow-lg border border-neutral-200/80 flex items-center justify-center transition-all duration-200 z-20 hover:scale-110 active:scale-95"
                   aria-label="Sonraki Ürün"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -218,23 +263,32 @@ export function HeroSection() {
 
                 {/* Yüzen Başlık ve Bilgi Kutusu */}
                 <div className="absolute bottom-5 inset-x-4 sm:inset-x-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-gold-200 flex items-center justify-between shadow-xl z-20 transition-all duration-300">
-                  <div className="min-w-0 flex-1 pr-2">
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-gold-700 font-bold uppercase tracking-widest">
-                      <Sparkles className="w-3 h-3 text-gold-600 animate-spin" />
-                      <span>{currentProduct.badge}</span>
-                    </div>
-                    <h3 className="font-serif text-xs sm:text-sm font-semibold text-neutral-900 mt-0.5 truncate">
-                      {currentProduct.title}
-                    </h3>
-                    <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="text-xs sm:text-sm font-mono font-bold text-neutral-950">
-                        {currentProduct.salePrice.toLocaleString("tr-TR")} ₺
-                      </span>
-                      <span className="text-[10px] text-neutral-400 line-through">
-                        {currentProduct.price.toLocaleString("tr-TR")} ₺
-                      </span>
-                    </div>
-                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentProduct.id}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
+                      className="min-w-0 flex-1 pr-2"
+                    >
+                      <div className="flex items-center gap-1 text-[10px] font-mono text-gold-700 font-bold uppercase tracking-widest">
+                        <Sparkles className="w-3 h-3 text-gold-600 animate-spin" />
+                        <span>{currentProduct.badge}</span>
+                      </div>
+                      <h3 className="font-serif text-xs sm:text-sm font-semibold text-neutral-900 mt-0.5 truncate">
+                        {currentProduct.title}
+                      </h3>
+                      <div className="flex items-baseline gap-2 mt-0.5">
+                        <span className="text-xs sm:text-sm font-mono font-bold text-neutral-950">
+                          {currentProduct.salePrice.toLocaleString("tr-TR")} ₺
+                        </span>
+                        <span className="text-[10px] text-neutral-400 line-through">
+                          {currentProduct.price.toLocaleString("tr-TR")} ₺
+                        </span>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
 
                   <Link
                     href={`/urun/${currentProduct.slug}`}
