@@ -29,7 +29,7 @@ export const siteConfig = {
     whatsappRaw: "905332603242",
     whatsappDefaultMessage: "Merhaba Rider Silver, stil danışmanınızla görüşmek, koleksiyon ve özel sipariş süreçleri hakkında bilgi almak istiyorum.",
     email: "destek@ridersilver.com",
-    address: "Abdi İpekçi Cad. No: 42, Nişantaşı / İstanbul",
+    address: "Cumhuriyet Cad. Balbey Mah. 410 Sok. Tekkapılı Han İçi No: 109, Muratpaşa / Antalya",
     workingHours: "Pazartesi - Cumartesi: 09:30 - 19:30",
   },
 
