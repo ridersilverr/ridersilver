@@ -1,12 +1,16 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { MeteorEffect } from "@/components/common/MeteorEffect";
 
 export function BrandLogoShowcase() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-neutral-950 via-[#101013] to-neutral-950 border-b border-neutral-800/80 select-none shadow-md">
+      {/* Kayan Meteorlar & Işıltılar */}
+      <MeteorEffect count={7} sparkleCount={10} />
+
       {/* Arka Plan Atmosfer Işıkları (Kompakt Odak) */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Merkez Gümüş/Altın Spot Işığı */}

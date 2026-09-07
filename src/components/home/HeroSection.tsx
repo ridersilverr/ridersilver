@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ArrowRight, ShieldCheck, BadgePercent, ChevronLeft, ChevronRight } from "lucide-react";
+import { MeteorEffect } from "@/components/common/MeteorEffect";
 
 const featuredItems = [
   {
@@ -128,6 +129,9 @@ export function HeroSection() {
       
       {/* İnce Zarif Arka Plan Deseni */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none" />
+
+      {/* Kayan Altın/Gümüş Meteorlar ve Işıltılı Yıldız Tozu Arka Planı */}
+      <MeteorEffect count={14} sparkleCount={18} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">

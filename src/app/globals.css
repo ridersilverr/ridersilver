@@ -121,3 +121,40 @@ body {
   box-shadow: 0 16px 36px -10px rgba(212, 175, 55, 0.15);
   transform: translateY(-2px);
 }
+
+/* Lüks Kayan Meteor & Mücevher Işıltısı Animasyonları */
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-650px);
+    opacity: 0;
+  }
+}
+
+@keyframes sparklePulse {
+  0%, 100% {
+    transform: scale(0.5) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.35) rotate(180deg);
+    opacity: 0.85;
+  }
+}
+
+.animate-meteor {
+  animation: meteor linear infinite;
+}
+
+.animate-sparkle-pulse {
+  animation: sparklePulse ease-in-out infinite;
+}
