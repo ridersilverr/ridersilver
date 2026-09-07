@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { siteConfig } from "@/config/site";
+import { siteConfig, getWhatsAppUrl } from "@/config/site";
 import { 
   ShieldCheck, 
   Truck, 
@@ -12,7 +12,8 @@ import {
   Mail, 
   MapPin, 
   Sparkles,
-  Instagram
+  Instagram,
+  MessageCircle
 } from "lucide-react";
 
 export function Footer() {
@@ -130,6 +131,15 @@ export function Footer() {
                 <Phone className="w-4 h-4 text-gold-400 shrink-0" />
                 <span>{siteConfig.contact.phone}</span>
               </div>
+              <a
+                href={getWhatsAppUrl("Merhaba Rider Silver, web siteniz üzerinden stil danışmanınızla iletişime geçmek istiyorum.")}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2.5 font-mono text-emerald-400 hover:text-emerald-300 transition group"
+              >
+                <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform" />
+                <span>Stil Danışmanı: {siteConfig.contact.whatsapp}</span>
+              </a>
               <div className="flex items-center gap-2.5 font-mono">
                 <Mail className="w-4 h-4 text-gold-400 shrink-0" />
                 <span>{siteConfig.contact.email}</span>

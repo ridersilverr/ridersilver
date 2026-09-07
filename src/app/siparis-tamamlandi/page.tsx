@@ -43,7 +43,7 @@ function OrderSuccessContent() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Merhaba, ${siteConfig.name} üzerinden #${orderId} numaralı siparişimi verdim. Bilgi almak istiyorum.`
+    `Merhaba ${siteConfig.name}, #${orderId} numaralı siparişimi oluşturdum. Havale/EFT teyidi ve sipariş detayları hakkında bilgi almak istiyorum.`
   );
 
   return (
@@ -117,7 +117,7 @@ function OrderSuccessContent() {
           {/* Aksiyon Butonları */}
           <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href={`https://wa.me/905325550199?text=${whatsappMessage}`}
+              href={`https://wa.me/${siteConfig.contact.whatsappRaw}?text=${whatsappMessage}`}
               target="_blank"
               rel="noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-mono font-bold uppercase tracking-wider rounded-full shadow-md transition"

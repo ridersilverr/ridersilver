@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { FloatingWhatsApp } from "@/components/common/FloatingWhatsApp";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -39,6 +40,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <MobileBottomNav />
+            <FloatingWhatsApp />
           </CartProvider>
         </AuthProvider>
       </body>

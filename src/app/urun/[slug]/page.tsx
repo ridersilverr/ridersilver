@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { getProductBySlug, addProductReview, getAllProducts } from "@/lib/store";
 import { Product } from "@/types";
 import { useCart } from "@/context/CartContext";
-import { siteConfig } from "@/config/site";
+import { siteConfig, getWhatsAppUrl } from "@/config/site";
 import { ProductCard } from "@/components/product/ProductCard";
 import { 
   Star, 
@@ -21,7 +21,8 @@ import {
   CheckCircle2,
   MessageSquarePlus,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  MessageCircle
 } from "lucide-react";
 
 export default function ProductDetailPage() {
@@ -351,6 +352,17 @@ export default function ProductDetailPage() {
                   )}
                 </button>
               </div>
+
+              {/* WhatsApp Stil Danışmanı Direkt Soru */}
+              <a
+                href={getWhatsAppUrl(`Merhaba Rider Silver, "${product.title}" (${product.price} TL) hakkında özel ölçü veya detaylı bilgi almak istiyorum.`)}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 text-emerald-900 text-xs font-mono font-bold uppercase tracking-wider transition shadow-2xs group"
+              >
+                <MessageCircle className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
+                <span>WhatsApp Stil Danışmanına Sor</span>
+              </a>
 
               {/* Güvenceler */}
               <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-3 text-[11px] text-neutral-600">

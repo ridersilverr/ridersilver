@@ -24,8 +24,10 @@ export const siteConfig = {
   
   // İletişim Bilgileri
   contact: {
-    phone: "+90 (212) 555 01 99",
-    whatsapp: "+90 532 555 01 99",
+    phone: "+90 (533) 260 32 42",
+    whatsapp: "+90 533 260 32 42",
+    whatsappRaw: "905332603242",
+    whatsappDefaultMessage: "Merhaba Rider Silver, stil danışmanınızla görüşmek, koleksiyon ve özel sipariş süreçleri hakkında bilgi almak istiyorum.",
     email: "destek@ridersilver.com",
     address: "Abdi İpekçi Cad. No: 42, Nişantaşı / İstanbul",
     workingHours: "Pazartesi - Cumartesi: 09:30 - 19:30",
@@ -70,3 +72,8 @@ export const siteConfig = {
     "Özel kadife mücevher kutusu ve sertifikasıyla gönderim",
   ],
 };
+
+export function getWhatsAppUrl(customMessage?: string): string {
+  const message = customMessage || siteConfig.contact.whatsappDefaultMessage;
+  return `https://wa.me/${siteConfig.contact.whatsappRaw}?text=${encodeURIComponent(message)}`;
+}

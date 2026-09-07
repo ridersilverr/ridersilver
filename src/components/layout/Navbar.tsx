@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { siteConfig } from "@/config/site";
+import { siteConfig, getWhatsAppUrl } from "@/config/site";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { 
@@ -14,7 +14,8 @@ import {
   X, 
   Sparkles, 
   LogOut, 
-  LayoutDashboard
+  LayoutDashboard,
+  MessageCircle
 } from "lucide-react";
 
 export function Navbar() {
@@ -294,11 +295,12 @@ export function Navbar() {
 
             <div className="pt-2 border-t border-neutral-100 flex flex-col gap-2 font-mono">
               <a
-                href="https://wa.me/905325550199"
+                href={getWhatsAppUrl("Merhaba Rider Silver, stil danışmanınızla görüşmek, koleksiyon ve özel sipariş süreçleri hakkında bilgi almak istiyorum.")}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs uppercase tracking-wider font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-2"
+                className="text-xs uppercase tracking-wider font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 py-2.5 px-3 rounded-xl text-center flex items-center justify-center gap-2 transition"
               >
+                <MessageCircle className="w-4 h-4 text-emerald-600" />
                 <span>WhatsApp VIP Stil Danışmanı</span>
               </a>
 

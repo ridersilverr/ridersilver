@@ -13,6 +13,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { getAllProducts } from "@/lib/store";
 import { Product } from "@/types";
 import { Sparkles, ArrowRight, MessageCircle } from "lucide-react";
+import { getWhatsAppUrl } from "@/config/site";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -136,7 +137,7 @@ export default function Home() {
 
           <div className="pt-2">
             <a
-              href="https://wa.me/905325550199"
+              href={getWhatsAppUrl("Merhaba Rider Silver, özel tasarım ve koleksiyonlarınız hakkında stil danışmanından bilgi almak istiyorum.")}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold tracking-widest uppercase rounded-full shadow-lg shadow-emerald-700/20 transition-all duration-300 transform hover:-translate-y-0.5"
