@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, ArrowRight, ShieldCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sparkles, ArrowRight, ShieldCheck, BadgePercent, ChevronLeft, ChevronRight } from "lucide-react";
 
 const featuredItems = [
   {
@@ -97,9 +97,34 @@ export function HeroSection() {
   return (
     <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-amber-50/40 via-white to-stone-50 text-neutral-900 pt-8 pb-16 sm:pt-12 sm:pb-24">
       
-      {/* Ferah Altın Işık & Güneş Parıltısı Efektleri (Altınbaş Tarzı) */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-gradient-to-b from-gold-200/30 via-amber-100/20 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute -bottom-10 right-0 w-[500px] h-[500px] bg-amber-100/30 rounded-full blur-[140px] pointer-events-none" />
+      {/* Ferah Altın Işık & Güneş Parıltısı Efektleri (Hareketli Lüks Atmosfer) */}
+      <motion.div
+        animate={{
+          x: [0, 30, -25, 0],
+          y: [0, -22, 18, 0],
+          scale: [1, 1.1, 0.95, 1],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[720px] h-[460px] bg-gradient-to-b from-gold-300/35 via-amber-100/25 to-transparent rounded-full blur-[125px] pointer-events-none"
+      />
+      <motion.div
+        animate={{
+          x: [0, -20, 25, 0],
+          y: [0, 20, -15, 0],
+          scale: [1, 0.96, 1.08, 1],
+        }}
+        transition={{
+          duration: 14,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+        className="absolute -bottom-10 right-0 w-[520px] h-[520px] bg-amber-200/25 rounded-full blur-[140px] pointer-events-none"
+      />
       
       {/* İnce Zarif Arka Plan Deseni */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none" />
@@ -110,30 +135,52 @@ export function HeroSection() {
           {/* Sol Kolon: Başlık, Slogan, Aksiyonlar (7 Kolon) */}
           <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
             
-            {/* Ferah Canlı Rozet */}
-            <div className="inline-flex items-center gap-3 p-1.5 pr-4 rounded-full bg-neutral-950 text-white border border-gold-500/40 shadow-md">
-              <div className="relative w-8 h-5 sm:w-10 sm:h-6 shrink-0">
-                <Image
-                  src="/images/logo-icon.png"
-                  alt="Rider Silver"
-                  fill
-                  className="object-contain object-center drop-shadow-sm"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
-                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-gold-300 font-bold">
-                  RIDER SILVER • 925 AYAR HAS GÜMÜŞ
-                </span>
-              </div>
+            {/* Ferah Canlı Rozet & Işıltılar */}
+            <div className="relative inline-block">
+              {/* Mikro Parlayan Mücevher Yıldızı */}
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                  scale: [0.9, 1.2, 0.9],
+                  opacity: [0.4, 0.9, 0.4],
+                  rotate: [0, 90, 180, 270, 360],
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-3 -right-3 text-gold-500 pointer-events-none hidden sm:block"
+              >
+                <Sparkles className="w-4 h-4 fill-gold-400/40 text-gold-500" />
+              </motion.div>
+
+              <motion.div
+                animate={{ y: [0, -2, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-flex items-center gap-3 p-1.5 pr-4 rounded-full bg-neutral-950 text-white border border-gold-500/50 shadow-lg shadow-gold-950/20"
+              >
+                <div className="relative w-8 h-5 sm:w-10 sm:h-6 shrink-0">
+                  <Image
+                    src="/images/logo-icon.png"
+                    alt="Rider Silver"
+                    fill
+                    className="object-contain object-center drop-shadow-sm"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-ping" />
+                  <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-gold-300 font-bold">
+                    RIDER SILVER • 925 AYAR HAS GÜMÜŞ
+                  </span>
+                </div>
+              </motion.div>
             </div>
 
             {/* Büyük Aydınlık Tipografi */}
-            <div className="space-y-3">
+            <div className="space-y-3 relative">
               <h1 className="font-serif text-4xl sm:text-6xl xl:text-7xl font-light tracking-tight text-neutral-900 leading-[1.12]">
                 Senin Sürüşün,{" "}
-                <span className="italic font-normal bg-gradient-to-r from-gold-600 via-amber-600 to-gold-700 bg-clip-text text-transparent font-serif">
-                  Senin Hikayen.
+                <span className="relative inline-block">
+                  <span className="italic font-normal bg-gradient-to-r from-gold-600 via-amber-500 to-gold-700 bg-clip-text text-transparent font-serif drop-shadow-xs">
+                    Senin Hikayen.
+                  </span>
                 </span>
               </h1>
             </div>
@@ -146,33 +193,122 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <Link
                 href="/katalog"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-gradient-to-r from-gold-600 via-amber-600 to-gold-700 hover:from-gold-700 hover:to-amber-700 shadow-lg shadow-gold-600/25 transition-all duration-300 transform hover:-translate-y-0.5"
+                className="w-full sm:w-auto relative group overflow-hidden inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase text-white bg-gradient-to-r from-gold-600 via-amber-600 to-gold-700 hover:from-gold-700 hover:to-amber-700 shadow-xl shadow-gold-600/25 transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                <span>Koleksiyonu Keşfet</span>
-                <ArrowRight className="w-4 h-4" />
+                {/* Gezen Işık Huzmesi */}
+                <span className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000 ease-in-out pointer-events-none" />
+                <span className="relative z-10">Koleksiyonu Keşfet</span>
+                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link
                 href="/katalog?kategori=kolyeler"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-800 hover:text-gold-700 border border-neutral-300 hover:border-gold-400 bg-white shadow-xs transition-all duration-300"
+                className="w-full sm:w-auto relative group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-800 hover:text-gold-700 border border-neutral-300 hover:border-gold-400 bg-white shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 <span>Özel Kolyeler</span>
               </Link>
             </div>
 
-            {/* Ferah Metrik Hapları */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-6 max-w-lg mx-auto lg:mx-0 border-t border-neutral-200">
-              <div className="p-2.5 sm:p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-xs text-center lg:text-left">
-                <span className="font-mono text-sm sm:text-2xl font-bold text-neutral-900">925 & 14K</span>
-                <span className="block text-[9px] sm:text-[10px] text-neutral-500 font-mono tracking-wider uppercase mt-0.5">Sertifikalı</span>
-              </div>
-              <div className="p-2.5 sm:p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-xs text-center lg:text-left">
-                <span className="font-mono text-sm sm:text-2xl font-bold text-emerald-700">%5 İndirim</span>
-                <span className="block text-[9px] sm:text-[10px] text-neutral-500 font-mono tracking-wider uppercase mt-0.5">Havale / EFT</span>
-              </div>
-              <div className="p-2.5 sm:p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-xs text-center lg:text-left">
-                <span className="font-mono text-sm sm:text-2xl font-bold text-gold-700">Ömür Boyu</span>
-                <span className="block text-[9px] sm:text-[10px] text-neutral-500 font-mono tracking-wider uppercase mt-0.5">Cila Bakımı</span>
+            {/* Lüks Güven & Avantaj Widget'ları (Vurgulu, Şık & Hareketli) */}
+            <div className="pt-7 max-w-xl mx-auto lg:mx-0 border-t border-gold-300/40">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3.5">
+                
+                {/* 1. Widget: 925 & 14K Sertifikalı */}
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="relative group rounded-2xl sm:rounded-3xl p-3 sm:p-4 bg-gradient-to-b from-white via-stone-50/60 to-gold-50/25 border border-gold-300/70 hover:border-gold-500 shadow-[0_4px_16px_rgba(212,175,55,0.10)] hover:shadow-[0_8px_25px_rgba(212,175,55,0.22)] transition-all duration-300 overflow-hidden flex flex-col justify-between cursor-default"
+                >
+                  {/* Periyodik Altın Işıltı Dalgası */}
+                  <motion.div
+                    animate={{ x: ["-120%", "240%"] }}
+                    transition={{ repeat: Infinity, duration: 3.5, repeatDelay: 4, ease: "easeInOut" }}
+                    className="absolute inset-0 w-2/3 bg-gradient-to-r from-transparent via-white/70 to-transparent skew-x-12 pointer-events-none"
+                  />
+
+                  <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-neutral-950 to-neutral-800 text-gold-300 border border-gold-400/40 shadow-xs flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <ShieldCheck className="w-4 h-4 text-gold-300 stroke-[2.2]" />
+                    </div>
+                    <span className="text-[7.5px] sm:text-[9px] font-mono font-bold tracking-widest text-gold-800 uppercase px-1.5 sm:px-2 py-0.5 rounded-full bg-gold-100/90 border border-gold-300/80">
+                      ORİJİNAL
+                    </span>
+                  </div>
+
+                  <div className="space-y-0.5 text-left">
+                    <div className="font-mono text-xs sm:text-lg lg:text-xl font-black text-neutral-950 tracking-tight">
+                      925 & 14K
+                    </div>
+                    <div className="text-[9px] sm:text-[11px] text-neutral-600 font-medium tracking-wide">
+                      Sertifikalı
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* 2. Widget: %5 İndirim Havale / EFT */}
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="relative group rounded-2xl sm:rounded-3xl p-3 sm:p-4 bg-gradient-to-b from-white via-emerald-50/20 to-emerald-50/40 border border-emerald-300/80 hover:border-emerald-500 shadow-[0_4px_16px_rgba(16,185,129,0.10)] hover:shadow-[0_8px_25px_rgba(16,185,129,0.22)] transition-all duration-300 overflow-hidden flex flex-col justify-between cursor-default"
+                >
+                  {/* Periyodik Zümrüt Işıltı Dalgası */}
+                  <motion.div
+                    animate={{ x: ["-120%", "240%"] }}
+                    transition={{ repeat: Infinity, duration: 3.5, repeatDelay: 4, delay: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0 w-2/3 bg-gradient-to-r from-transparent via-emerald-100/50 to-transparent skew-x-12 pointer-events-none"
+                  />
+
+                  <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-emerald-950 to-neutral-900 text-emerald-300 border border-emerald-400/40 shadow-xs flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <BadgePercent className="w-4 h-4 text-emerald-300 stroke-[2.2]" />
+                    </div>
+                    <span className="text-[7.5px] sm:text-[9px] font-mono font-bold tracking-widest text-emerald-800 uppercase px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-100/90 border border-emerald-300/80">
+                      AVANTAJ
+                    </span>
+                  </div>
+
+                  <div className="space-y-0.5 text-left">
+                    <div className="font-mono text-xs sm:text-lg lg:text-xl font-black text-emerald-700 tracking-tight">
+                      %5 İndirim
+                    </div>
+                    <div className="text-[9px] sm:text-[11px] text-neutral-600 font-medium tracking-wide">
+                      Havale / EFT
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* 3. Widget: Ömür Boyu Cila Bakımı */}
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="relative group rounded-2xl sm:rounded-3xl p-3 sm:p-4 bg-gradient-to-b from-white via-amber-50/20 to-gold-50/40 border border-gold-300/80 hover:border-gold-500 shadow-[0_4px_16px_rgba(212,175,55,0.10)] hover:shadow-[0_8px_25px_rgba(212,175,55,0.22)] transition-all duration-300 overflow-hidden flex flex-col justify-between cursor-default"
+                >
+                  {/* Periyodik Altın Işıltı Dalgası */}
+                  <motion.div
+                    animate={{ x: ["-120%", "240%"] }}
+                    transition={{ repeat: Infinity, duration: 3.5, repeatDelay: 4, delay: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0 w-2/3 bg-gradient-to-r from-transparent via-amber-100/60 to-transparent skew-x-12 pointer-events-none"
+                  />
+
+                  <div className="flex items-center justify-between gap-1 mb-2 sm:mb-3">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-gold-600 via-amber-600 to-gold-700 text-white border border-gold-300/60 shadow-xs flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <Sparkles className="w-4 h-4 text-white stroke-[2.2]" />
+                    </div>
+                    <span className="text-[7.5px] sm:text-[9px] font-mono font-bold tracking-widest text-amber-800 uppercase px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-100/90 border border-amber-300/80">
+                      GARANTİ
+                    </span>
+                  </div>
+
+                  <div className="space-y-0.5 text-left">
+                    <div className="font-mono text-xs sm:text-lg lg:text-xl font-black text-gold-700 tracking-tight">
+                      Ömür Boyu
+                    </div>
+                    <div className="text-[9px] sm:text-[11px] text-neutral-600 font-medium tracking-wide">
+                      Cila Bakımı
+                    </div>
+                  </div>
+                </motion.div>
+
               </div>
             </div>
 
